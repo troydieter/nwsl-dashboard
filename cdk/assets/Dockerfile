@@ -15,6 +15,8 @@ ENV PATH="${PATH}:/opt/R/${R_VERSION}/bin/"
 RUN yum -y install openssl-devel
 
 RUN Rscript -e "install.packages(c('httr', 'jsonlite', 'logger', 'logging'), repos = 'https://cloud.r-project.org/')"
+RUN Rscript -e "install.packages(c(('devtools')), repos = 'https://cloud.r-project.org/')"
+RUN Rscript -e "install_github("nwslR/nwslR",ref = "v0.0.0.9002")"
 
 
 COPY runtime.R functions.R bootstrap.R ${LAMBDA_TASK_ROOT}/
