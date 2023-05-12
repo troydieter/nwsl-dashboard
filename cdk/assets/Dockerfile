@@ -14,11 +14,9 @@ ENV PATH="${PATH}:/opt/R/${R_VERSION}/bin/"
 # System requirements for R packages
 RUN yum -y install openssl-devel
 
-RUN Rscript -e "install.packages(c('httr', 'jsonlite', 'logger', 'logging'), repos = 'https://cloud.r-project.org/')"
-RUN Rscript -e "install.packages(c(('devtools')), repos = 'https://cloud.r-project.org/')"
-# RUN Rscript -e "install_github("nwslR/nwslR",ref = "v0.0.0.9002")"
-# RUN Rscript -e "devtools::install_github('nwslR/nwslR')"
-RUN Rscript -e "devtools::install_github('nwslR/nwslR')"
+RUN Rscript -e "install.packages(c('httr', 'jsonlite', 'logger', 'logging', 'knitr'), repos = 'https://cloud.r-project.org/')"
+RUN Rscript -e "library(knitr); opts_chunk$set(fig.path = 'man/figures/README-')"
+RUN Rscript -e "install.packages('remotes', repos = 'https://cloud.r-project.org/'); remotes::install_github('nwslR/nwslR', ref = 'v0.0.0.9002')"
 
 COPY runtime.R functions.R bootstrap.R ${LAMBDA_TASK_ROOT}/
 RUN chmod 755 -R ${LAMBDA_TASK_ROOT}/
